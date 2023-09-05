@@ -220,7 +220,7 @@ return (
                         <Widget
                           src="fran-cali.testnet/widget/UserProfileIcon"
                           props={{
-                            accountId: props.message.sender,
+                            accountId: message.sender,
                             showStatus: false,
                           }}
                         />
