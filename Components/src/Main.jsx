@@ -107,6 +107,9 @@ const Separator = styled.div`
 
 const Message = styled.div`
   margin-bottom: 1rem;
+  background-color: #5c5470;
+  width: 100%;
+  padding: 2px;
 `;
 
 const formatTimeAgo = (seconds) => {
@@ -134,74 +137,132 @@ const formatTimeAgo = (seconds) => {
 const MessageData = styled.div`
   display: flex;
   column-gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 `;
+
+const MainContainer = styled.div`
+  background-color: #352f44;
+  padding: 1rem;
+  width: 100%;
+`;
+
+const SenderText = styled.div`
+  color: #faf0e6;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+`;
+const TimeAgo = styled.div`
+  color: #b9b4c7;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-top: 2px;
+`;
+
+const MessageText = styled.div`
+  color: #fff;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const Title = styled.div`
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+`;
+
+const IconSend = styled.i`
+  margin-top: 0.3rem;
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #797978;
+  :hover {
+    color: #fff;
+  }
+`;
+
+const LoginText = styled.div`
+  color: #fff;
+`;
+
+const ButtonJoin = styled.div`
+  width: 100px;
+  padding: 4px;
+  background-color: #b9b4c7;
+  color: #111;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+`;
+
 return (
-  <div>
+  <MainContainer>
     {context.accountId ? (
       <>
         {state.bootstraping ? (
-          <div>Loading...</div>
+          <Title>Loading...</Title>
         ) : (
           <>
             {state.loggedIn && isMember(context.accountId) ? (
-              <>
-                <div className="d-flex">
-                  <div>
-                    <div>{state.channelList[0].name.toUpperCase()}</div>
-                    {state.chatMessages.length === 0 && <p>No messages yet</p>}
-                    <div>
-                      {state.chatMessages.map((message, id) => (
-                        <Message key={id}>
-                          <MessageData>
-                            <Widget
-                              src="fran-cali.testnet/widget/UserProfileIcon"
-                              props={{
-                                accountId: props.message.sender,
-                                showStatus: false,
-                              }}
-                            />
-                            <p>{message.sender}</p>
-                            <p>
-                              {formatTimeAgo(
-                                (Date.now() - message.timestamp) / 1000
-                              )}
-                            </p>
-                          </MessageData>
+              <div>
+                <Title>Calimero Chat - NEAR APAC</Title>
+                {state.chatMessages.length === 0 && (
+                  <Title>No messages yet</Title>
+                )}
+                <div>
+                  {state.chatMessages.map((message, id) => (
+                    <Message key={id}>
+                      <MessageData>
+                        <Widget
+                          src="fran-cali.testnet/widget/UserProfileIcon"
+                          props={{
+                            accountId: props.message.sender,
+                            showStatus: false,
+                          }}
+                        />
+                        <SenderText>{message.sender}</SenderText>
+                        <TimeAgo>
+                          {formatTimeAgo(
+                            (Date.now() - message.timestamp) / 1000
+                          )}
+                        </TimeAgo>
+                      </MessageData>
 
-                          <p>{message.text}</p>
-                          <Separator />
-                        </Message>
-                      ))}
-                    </div>
-                    <div className="d-flex gap-x-2">
-                      <input
-                        onChange={onChangeMessage}
-                        onKeyUp={(e) => {
-                          if (e.key == "Enter") {
-                            sendMessage();
-                          }
-                        }}
-                        placeholder={"send a message"}
-                        key={state.inputId}
-                        value={state.message}
-                        autoFocus
-                      />
-                      <i
-                        className="bi bi-send-fill"
-                        onClick={() => sendMessage()}
-                      ></i>
-                    </div>
-                  </div>
+                      <MessageText>{message.text}</MessageText>
+                    </Message>
+                  ))}
                 </div>
-              </>
+                <div className="d-flex gap-x-2">
+                  <input
+                    onChange={onChangeMessage}
+                    onKeyUp={(e) => {
+                      if (e.key == "Enter") {
+                        sendMessage();
+                      }
+                    }}
+                    placeholder={"send a message"}
+                    key={state.inputId}
+                    value={state.message}
+                    autoFocus
+                  />
+                  <IconSend
+                    className="bi bi-send-fill"
+                    onClick={() => sendMessage()}
+                  ></IconSend>
+                </div>
+              </div>
             ) : (
-              <div onClick={joinCurb}>Join Chat</div>
+              <ButtonJoin onClick={joinCurb}>Join Chat</ButtonJoin>
             )}
           </>
         )}
       </>
     ) : (
-      <div>Please login to bos</div>
+      <Title>Please login to continue</Title>
     )}
-  </div>
+  </MainContainer>
 );
