@@ -106,9 +106,9 @@ const updateChannelList = () =>
     true
   ).then((c) => State.update({ channelList: c }));
 
-const setMessages = () => {
-  if (state.channelList[0]) {
-    Near.asyncCalimeroView(
+state.channelList[0] &&
+  State.update({
+    chatMessages: Near.calimeroView(
       contract,
       "get_messages",
       {
@@ -116,11 +116,8 @@ const setMessages = () => {
       },
       undefined,
       true
-    ).then((m) => {
-      State.update({ chatMessages: m });
-    });
-  }
-};
+    ),
+  });
 
 // HELPER FUNCTIONS - CHANGE DATA OR CHANGE FUNCTIONS
 const onChangeMessage = ({ target }) => {
@@ -141,7 +138,6 @@ const sendMessage = () => {
   State.update({ message: "" });
   updateInputId(Math.random().toString(36));
   Near.fakCalimeroCall(contract, "send_message", params);
-  setMessages();
 };
 
 // CALIMERO FUNCTION ACCESSKEYS FUNCTIONS
@@ -175,7 +171,6 @@ if (state.bootstraping) {
 
 updateMemberList();
 updateChannelList();
-setMessages();
 
 const formatTimeAgo = (seconds) => {
   const minutes = Math.floor(seconds / 60);
@@ -210,11 +205,12 @@ return (
             {state.loggedIn && isMember(context.accountId) ? (
               <div>
                 <Title>Calimero Chat - NEAR APAC</Title>
-                {state.chatMessages.length === 0 && (
-                  <Title>No messages yet</Title>
-                )}
+                {!state.chatMessages ||
+                  (state.chatMessages.length === 0 && (
+                    <Title>No messages yet</Title>
+                  ))}
                 <div>
-                  {state.chatMessages.map((message, id) => (
+                  {(state.chatMessages || []).map((message, id) => (
                     <Message key={id}>
                       <MessageData>
                         <Widget
