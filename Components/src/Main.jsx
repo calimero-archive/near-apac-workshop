@@ -1,5 +1,84 @@
 const contract = props.contract || "chat-simple.ws-protocol-63";
 
+const Separator = styled.div`
+  height: 1px;
+  padding: 1px;
+  width: 3rem;
+  background-color: #111;
+`;
+
+const Message = styled.div`
+  margin-bottom: 1rem;
+  background-color: #5c5470;
+  width: 100%;
+  padding: 2px;
+`;
+
+const MessageData = styled.div`
+  display: flex;
+  column-gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+`;
+
+const MainContainer = styled.div`
+  background-color: #352f44;
+  padding: 1rem;
+  width: 100%;
+`;
+
+const SenderText = styled.div`
+  color: #faf0e6;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+`;
+const TimeAgo = styled.div`
+  color: #b9b4c7;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-top: 2px;
+`;
+
+const MessageText = styled.div`
+  color: #fff;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const Title = styled.div`
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+`;
+
+const IconSend = styled.i`
+  margin-top: 0.3rem;
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #797978;
+  :hover {
+    color: #fff;
+  }
+`;
+
+const LoginText = styled.div`
+  color: #fff;
+`;
+
+const ButtonJoin = styled.div`
+  width: 100px;
+  padding: 4px;
+  background-color: #b9b4c7;
+  color: #111;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  border-radius: 8px;
+`;
+
 State.init({
   bootstraping: true,
   loggedIn: false,
@@ -98,20 +177,6 @@ updateMemberList();
 updateChannelList();
 setMessages();
 
-const Separator = styled.div`
-  height: 1px;
-  padding: 1px;
-  width: 3rem;
-  background-color: #111;
-`;
-
-const Message = styled.div`
-  margin-bottom: 1rem;
-  background-color: #5c5470;
-  width: 100%;
-  padding: 2px;
-`;
-
 const formatTimeAgo = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
@@ -133,71 +198,6 @@ const formatTimeAgo = (seconds) => {
     return `just now`;
   }
 };
-
-const MessageData = styled.div`
-  display: flex;
-  column-gap: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-`;
-
-const MainContainer = styled.div`
-  background-color: #352f44;
-  padding: 1rem;
-  width: 100%;
-`;
-
-const SenderText = styled.div`
-  color: #faf0e6;
-  font-size: 1rem;
-  line-height: 1.25rem;
-  font-weight: 700;
-`;
-const TimeAgo = styled.div`
-  color: #b9b4c7;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  margin-top: 2px;
-`;
-
-const MessageText = styled.div`
-  color: #fff;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-`;
-
-const Title = styled.div`
-  color: #fff;
-  font-size: 1.25rem;
-  line-height: 1.5rem;
-  font-weight: 700;
-`;
-
-const IconSend = styled.i`
-  margin-top: 0.3rem;
-  margin-left: 1rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  color: #797978;
-  :hover {
-    color: #fff;
-  }
-`;
-
-const LoginText = styled.div`
-  color: #fff;
-`;
-
-const ButtonJoin = styled.div`
-  width: 100px;
-  padding: 4px;
-  background-color: #b9b4c7;
-  color: #111;
-  font-size: 1.25rem;
-  line-height: 1.5rem;
-  font-weight: 700;
-  border-radius: 8px;
-`;
 
 return (
   <MainContainer>
